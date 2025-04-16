@@ -22,7 +22,7 @@ public class Booking {
     private Host host;
     private Integer numRooms;
 
-   // private Boolean isBooked;
+    private Boolean isRented = false;
 
 
     public Booking() {

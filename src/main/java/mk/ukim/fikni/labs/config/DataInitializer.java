@@ -1,5 +1,6 @@
 package mk.ukim.fikni.labs.config;
 
+import jakarta.annotation.PostConstruct;
 import mk.ukim.fikni.labs.model.domain.Booking;
 import mk.ukim.fikni.labs.model.domain.User;
 import mk.ukim.fikni.labs.model.domain.Country;
@@ -33,7 +34,7 @@ public class DataInitializer {
         this.passwordEncoder = passwordEncoder;
     }
 
-   // @PostConstruct
+    @PostConstruct
     public void initData() {
         Country usa = new Country("USA", "North America");
         Country uk = new Country("United Kingdom", "Europe");
