@@ -1,4 +1,4 @@
-package mk.ukim.fikni.labs.config;
+package mk.ukim.fikni.labs.config.init;
 
 import jakarta.annotation.PostConstruct;
 import mk.ukim.fikni.labs.model.domain.Booking;
@@ -37,13 +37,17 @@ public class DataInitializer {
     @PostConstruct
     public void initData() {
         Country usa = new Country("USA", "North America");
+        countryRepository.save(new Country("USA", "North America"));
         Country uk = new Country("United Kingdom", "Europe");
+        countryRepository.save(uk);
         Country germany = new Country("Germany", "Europe");
-        countryRepository.saveAll(List.of(usa, uk, germany));
+        countryRepository.save(germany);
 
-        Host host1 = new Host("Anja", "Ristevska", usa);
-        Host host2 = new Host("Sanja", "Saveska", uk);
-        Host host3 = new Host("Martin", "Dukovski", germany);
+//        countryRepository.saveAll(List.of(usa, uk, germany));
+
+        Host host1 = new Host("Anja", "Ristevska", countryRepository.findById(1L).get());
+        Host host2 = new Host("Sanja", "Saveska", countryRepository.findById(1L).get());
+        Host host3 = new Host("Martin", "Dukovski", countryRepository.findById(1L).get());
         hostRepository.saveAll(List.of(host1, host2, host3));
 
         Booking book1 = new Booking("Barbie", BookingCategory.APARTMENT, host1, 50);

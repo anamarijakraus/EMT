@@ -5,9 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Country {
 
     @Id
@@ -15,9 +17,6 @@ public class Country {
     private Long id;
     private String name;
     private String continent;
-
-    public Country() {
-    }
 
     public Country(String name, String continent) {
         this.name = name;

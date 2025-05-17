@@ -1,11 +1,7 @@
 package mk.ukim.fikni.labs.service.domain.impl;
 
 import mk.ukim.fikni.labs.model.enumerations.Role;
-import mk.ukim.fikni.labs.model.exceptions.InvalidArgumentsException;
-import mk.ukim.fikni.labs.model.exceptions.InvalidUsernameOrPasswordException;
-import mk.ukim.fikni.labs.model.exceptions.PasswordsDoNotMatchException;
-import mk.ukim.fikni.labs.model.exceptions.UsernameAlreadyExistsException;
-import mk.ukim.fikni.labs.model.exceptions.InvalidUserCredentialsException;
+import mk.ukim.fikni.labs.model.exceptions.*;
 import mk.ukim.fikni.labs.repository.UserRepository;
 import mk.ukim.fikni.labs.service.domain.UserService;
 import mk.ukim.fikni.labs.model.domain.User;
@@ -61,8 +57,14 @@ public class UserServiceImpl implements UserService {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
-                InvalidUserCredentialsException::new);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException(username));
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new InvalidUserCredentialsException();
+        return user;
+//        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
+//                InvalidArgumentsException::new);
     }
+
 }
 

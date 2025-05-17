@@ -1,10 +1,13 @@
-package mk.ukim.fikni.labs.web;
+package mk.ukim.fikni.labs.web.controllers;
 
 
 
 import io.swagger.v3.oas.annotations.Operation;
 import mk.ukim.fikni.labs.dto.CreateBookingDto;
 import mk.ukim.fikni.labs.dto.DisplayBookingDto;
+import mk.ukim.fikni.labs.model.enumerations.BookingCategory;
+import mk.ukim.fikni.labs.model.views.AccommodationCountView;
+import mk.ukim.fikni.labs.repository.AccommodationCountViewRepository;
 import mk.ukim.fikni.labs.service.application.BookingApplicationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +19,11 @@ import java.util.List;
 public class BookingController {
 
     private final BookingApplicationService bookingService;
+    private final AccommodationCountViewRepository accommodationCountViewRepository;
 
-    public BookingController(BookingApplicationService bookingService) {
+    public BookingController(BookingApplicationService bookingService, AccommodationCountViewRepository accommodationCountViewRepository) {
         this.bookingService = bookingService;
+        this.accommodationCountViewRepository = accommodationCountViewRepository;
     }
 
 
@@ -79,5 +84,37 @@ public class BookingController {
             return ResponseEntity.badRequest().body(e.getMessage()); // Return 400 with error message
         }
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DisplayBookingDto>> searchBookings(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) BookingCategory category,
+            @RequestParam(required = false) Long hostId,
+            @RequestParam(required = false) Integer numRooms
+    ) {
+        List<DisplayBookingDto> results = List.of();
+
+        if (name != null) {
+            results = bookingService.searchByName(name);
+        } else if (category != null) {
+            results = bookingService.searchByCategory(category);
+        } else if (hostId != null) {
+            results = bookingService.searchByHost(hostId);
+        } else if (numRooms != null) {
+            results = bookingService.searchByNumRooms(numRooms);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(results);
+    }
+
+
+    @GetMapping("/by-host")
+    public List<AccommodationCountView> getAccommodationsByHost() {
+        return accommodationCountViewRepository.findAll();
+    }
+
 
 }

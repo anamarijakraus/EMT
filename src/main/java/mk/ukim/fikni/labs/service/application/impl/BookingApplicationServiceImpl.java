@@ -2,7 +2,9 @@ package mk.ukim.fikni.labs.service.application.impl;
 
 import mk.ukim.fikni.labs.dto.CreateBookingDto;
 import mk.ukim.fikni.labs.dto.DisplayBookingDto;
+import mk.ukim.fikni.labs.model.domain.Booking;
 import mk.ukim.fikni.labs.model.domain.Host;
+import mk.ukim.fikni.labs.model.enumerations.BookingCategory;
 import mk.ukim.fikni.labs.service.application.BookingApplicationService;
 import mk.ukim.fikni.labs.service.domain.BookingService;
 import mk.ukim.fikni.labs.service.domain.HostService;
@@ -55,5 +57,25 @@ public class BookingApplicationServiceImpl implements BookingApplicationService 
     @Override
     public Optional<DisplayBookingDto> availableBooking(Long bookingID) {
         return bookingService.availableBooking(bookingID).map(DisplayBookingDto::from);
+    }
+
+    @Override
+    public List<DisplayBookingDto> searchByName(String name) {
+        return bookingService.searchByName(name).stream().map(DisplayBookingDto::from).toList();
+    }
+
+    @Override
+    public List<DisplayBookingDto> searchByCategory(BookingCategory category) {
+        return bookingService.searchByCategory(category).stream().map(DisplayBookingDto::from).toList();
+    }
+
+    @Override
+    public List<DisplayBookingDto> searchByHost(Long hostId) {
+        return bookingService.searchByHost(hostId).stream().map(DisplayBookingDto::from).toList();
+    }
+
+    @Override
+    public List<DisplayBookingDto> searchByNumRooms(Integer numRooms) {
+        return bookingService.searchByNumRooms(numRooms).stream().map(DisplayBookingDto::from).toList();
     }
 }

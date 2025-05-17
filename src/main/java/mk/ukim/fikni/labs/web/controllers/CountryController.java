@@ -1,4 +1,4 @@
-package mk.ukim.fikni.labs.web;
+package mk.ukim.fikni.labs.web.controllers;
 
 
 import io.swagger.v3.oas.annotations.Operation;

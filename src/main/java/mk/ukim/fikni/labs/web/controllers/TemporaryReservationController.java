@@ -1,4 +1,4 @@
-package mk.ukim.fikni.labs.web;
+package mk.ukim.fikni.labs.web.controllers;
 
 import mk.ukim.fikni.labs.model.domain.TemporaryReservation;
 import org.springframework.security.core.Authentication;

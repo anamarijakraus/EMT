@@ -55,9 +55,6 @@ public class TemporaryReservationServiceImpl implements TemporaryReservationServ
             Booking booking = bookingService.findById(bookingId)
                     .orElseThrow(() -> new BookingNotFoundException(bookingId));
 
-            if (booking.getIsRented()) {
-                throw new BookingNotAvailableException(bookingId);
-            }
 
             if (tempReservation.getBookings().stream().anyMatch(b -> b.getId().equals(bookingId))) {
                 throw new BookingAlreadyInListException(bookingId);
@@ -69,13 +66,11 @@ public class TemporaryReservationServiceImpl implements TemporaryReservationServ
         return Optional.empty();
     }
 
-
     @Override
     public  Optional<TemporaryReservation> confirmReservation(Long listId) {
         TemporaryReservation reservation = temporaryReservationRepository.findById(listId)
                 .orElseThrow(() -> new TemporaryReservationNotFoundException(listId));
 
-        reservation.getBookings().forEach(booking -> booking.setIsRented(true));
         reservation.getBookings().forEach(booking -> booking.setNumRooms(0));
 
         return Optional.of(temporaryReservationRepository.save(reservation));

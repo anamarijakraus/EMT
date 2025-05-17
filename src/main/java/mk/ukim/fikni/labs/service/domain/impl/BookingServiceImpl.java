@@ -3,6 +3,7 @@ package mk.ukim.fikni.labs.service.domain.impl;
 
 
 import mk.ukim.fikni.labs.model.domain.Booking;
+import mk.ukim.fikni.labs.model.enumerations.BookingCategory;
 import mk.ukim.fikni.labs.repository.BookingRepository;
 import mk.ukim.fikni.labs.repository.HostRepository;
 import mk.ukim.fikni.labs.service.domain.BookingService;
@@ -77,6 +78,28 @@ public class BookingServiceImpl implements BookingService {
                 throw new IllegalStateException("No available rooms for this housing.");
             }
         });
+    }
+
+    @Override
+    public List<Booking> searchByName(String name) {
+        return bookingRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Booking> searchByCategory(BookingCategory category) {
+        return bookingRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<Booking> searchByHost(Long hostId) {
+        return hostRepository.findById(hostId)
+                .map(host -> bookingRepository.findByHost_NameContainingIgnoreCaseOrHost_SurnameContainingIgnoreCase(host.getName(), host.getSurname()))
+                .orElse(List.of());
+    }
+
+    @Override
+    public List<Booking> searchByNumRooms(Integer numRooms) {
+        return bookingRepository.findByNumRooms(numRooms);
     }
 
 }

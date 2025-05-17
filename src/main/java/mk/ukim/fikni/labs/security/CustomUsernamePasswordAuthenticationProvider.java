@@ -1,4 +1,4 @@
-package mk.ukim.fikni.labs.config;
+package mk.ukim.fikni.labs.security;
 
 import mk.ukim.fikni.labs.service.domain.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
-
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -49,6 +47,3 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
 }
-
-
-
