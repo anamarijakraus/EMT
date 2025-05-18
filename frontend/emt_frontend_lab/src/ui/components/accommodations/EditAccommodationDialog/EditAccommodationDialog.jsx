@@ -36,7 +36,7 @@ const EditAccommodationDialog = ({open, onClose, accommodation, onEdit}) => {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Add accommodation</DialogTitle>
+            <DialogTitle>Edit accommodation</DialogTitle>
             <DialogContent>
                 <TextField
                     margin="dense"
