@@ -1,6 +1,6 @@
 import React from 'react';
-import AccommodationCard from "../AccommodationCard/AccommodationCard.jsx";
-import {Grid} from "@mui/material";
+import { Grid } from '@mui/material';
+import AccommodationCard from '../AccommodationCard/AccommodationCard.jsx';
 
 const AccommodationsGrid = ({accommodations, onEdit, onDelete}) => {
     return (
